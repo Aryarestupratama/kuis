@@ -1,0 +1,79 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to right, #4e54c8, #8f94fb);
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.quiz-container {
+    background: rgba(30, 30, 47, 0.9);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    width: 80%;
+    max-width: 600px;
+    transition: transform 0.3s;
+}
+
+.quiz-container:hover {
+    transform: scale(1.02);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+#question {
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.choice {
+    background: #5e5e79;
+    border: none;
+    border-radius: 10px;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 1.1em;
+    margin: 10px 0;
+    padding: 15px;
+    transition: background 0.3s ease, transform 0.2s ease;
+    width: 100%;
+}
+
+.choice:hover {
+    background: #7777a1;
+    transform: scale(1.02);
+}
+
+.feedback {
+    margin: 10px 0;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+/* Style untuk tombol Next */
+#next-button {
+    background: #ff007f;
+    border: none;
+    border-radius: 10px;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 1.1em;
+    padding: 15px;
+    transition: background 0.3s ease;
+    width: 100%;
+    margin-top: 20px;
+}
+
+#next-button:hover {
+    background: #ff3f8d;
+}

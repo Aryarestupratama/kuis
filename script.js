@@ -1,10 +1,4 @@
-from flask import Flask, render_template, jsonify, request
-import random
-
-app = Flask(__name__)
-
-# Daftar pertanyaan
-questions = [
+const questions = [
     {
         'question': "Salah satu ciri khas definisi TP tahun 2004 adalah",
         'choices': ["penggunaan istilah teknologi pembelajaran", "etika dan estetika praktisi", "kejelasan kawasan", "pengembangan teori terkait penelitian"],
@@ -170,19 +164,67 @@ questions = [
         'choices': ["Definisi TP 1963", "Definisi TP 1972", "Definisi TP 1994", "Definisi TP 1977"],
         'answer': "Definisi TP 1977"
     }
-]
+];
 
-@app.route('/')
-def quiz():
-    question = random.choice(questions)
-    return render_template('quiz.html', question=question)
+let currentQuestionIndex = 0;
+let score = 0;
 
-@app.route('/check_answer', methods=['POST'])
-def check_answer():
-    user_answer = request.json['answer']
-    correct_answer = request.json['correct_answer']
-    result = 'Benar!' if user_answer == correct_answer else 'Salah!'
-    return jsonify(result=result, correct_answer=correct_answer)
+function loadQuestion() {
+    const currentQuestion = questions[currentQuestionIndex];
+    const questionElement = document.getElementById('question');
+    const choicesElement = document.getElementById('choices');
 
-if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    questionElement.textContent = currentQuestion.question;
+    choicesElement.innerHTML = '';
+
+    currentQuestion.choices.forEach(choice => {
+        const button = document.createElement('button');
+        button.textContent = choice;
+        button.classList.add('choice');
+        button.addEventListener('click', () => selectAnswer(choice));
+        choicesElement.appendChild(button);
+    });
+}
+
+function selectAnswer(choice) {
+    const currentQuestion = questions[currentQuestionIndex];
+    const choicesElement = document.getElementById('choices');
+
+    // Membuat elemen untuk menampilkan umpan balik
+    const feedback = document.createElement('div');
+    feedback.classList.add('feedback');
+
+    if (choice === currentQuestion.answer) {
+        score++;
+        feedback.textContent = "Jawaban Anda benar!";
+        feedback.style.color = 'green'; // Warna hijau untuk jawaban benar
+    } else {
+        feedback.textContent = `Jawaban Anda salah! Jawaban yang benar adalah: ${currentQuestion.answer}`;
+        feedback.style.color = 'red'; // Warna merah untuk jawaban salah
+    }
+
+    choicesElement.appendChild(feedback);
+
+    // Menyembunyikan pilihan setelah memilih
+    const choices = document.querySelectorAll('.choice');
+    choices.forEach(button => button.disabled = true);
+
+    currentQuestionIndex++;
+    setTimeout(() => {
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showScore();
+        }
+    }, 2000); // Menunggu 2 detik sebelum melanjutkan ke pertanyaan berikutnya
+}
+
+
+function showScore() {
+    const quizContainer = document.querySelector('.quiz-container');
+    quizContainer.innerHTML = `<h2>Skor Anda: ${score} dari ${questions.length}</h2>`;
+}
+
+document.getElementById('next-button').addEventListener('click', loadQuestion);
+
+loadQuestion();
