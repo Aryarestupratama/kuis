@@ -6,20 +6,37 @@
     <title>Kuis</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script>
-        function showResult(correctAnswer) {
+        function checkAnswer(correctAnswer) {
             const selectedAnswer = document.querySelector('input[name="answer"]:checked');
             const resultDiv = document.getElementById('result');
             
             if (selectedAnswer) {
-                const resultHTML = `
-                    <p><strong>Pertanyaan:</strong> {{ question.question }}</p>
-                    <p><strong>Jawaban Anda:</strong> ${selectedAnswer.value}</p>
-                    <p><strong>Jawaban yang benar:</strong> ${correctAnswer}</p>
-                    <button onclick="window.location.href='/'">Lanjut</button>
-                `;
-                resultDiv.innerHTML = resultHTML;
-                resultDiv.style.display = 'block'; // Tampilkan hasil
-                document.getElementById('quiz').style.display = 'none'; // Sembunyikan kuis
+                const userAnswer = selectedAnswer.value;
+                
+                // Kirim jawaban ke server dengan AJAX
+                fetch('/check_answer', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        answer: userAnswer,
+                        correct_answer: correctAnswer
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    resultDiv.innerHTML = `
+                        <p><strong>Pertanyaan:</strong> {{ question.question }}</p>
+                        <p><strong>Jawaban Anda:</strong> ${userAnswer}</p>
+                        <p><strong>Hasil:</strong> ${data.result}</p>
+                        <p><strong>Jawaban yang benar:</strong> ${data.correct_answer}</p>
+                        <button onclick="window.location.href='/'">Lanjut</button>
+                    `;
+                    resultDiv.style.display = 'block'; // Tampilkan hasil
+                    document.getElementById('quiz').style.display = 'none'; // Sembunyikan kuis
+                })
+                .catch(error => console.error('Error:', error));
             }
         }
     </script>
@@ -29,7 +46,7 @@
     <div id="quiz">
         {% for choice in question.choices %}
             <label>
-                <input type="radio" name="answer" value="{{ choice }}" onclick="showResult('{{ question.answer }}')">{{ choice }}
+                <input type="radio" name="answer" value="{{ choice }}" onclick="checkAnswer('{{ question.answer }}')">{{ choice }}
             </label><br>
         {% endfor %}
     </div>

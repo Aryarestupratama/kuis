@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify, request
 import random
 
 app = Flask(__name__)
@@ -173,9 +173,16 @@ questions = [
 ]
 
 @app.route('/')
-def index():
+def quiz():
     question = random.choice(questions)
-    return render_template('index.html', question=question)
+    return render_template('quiz.html', question=question)
+
+@app.route('/check_answer', methods=['POST'])
+def check_answer():
+    user_answer = request.json['answer']
+    correct_answer = request.json['correct_answer']
+    result = 'Benar!' if user_answer == correct_answer else 'Salah!'
+    return jsonify(result=result, correct_answer=correct_answer)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
