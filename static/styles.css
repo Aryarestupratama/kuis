@@ -1,0 +1,80 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Minimum height for full viewport */
+}
+
+h1 {
+    color: #333;
+    text-align: center; /* Center the heading */
+    margin-bottom: 20px; /* Space below the heading */
+}
+
+form {
+    background: white;
+    padding: 20px;
+    border-radius: 8px; /* Slightly larger border radius */
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15); /* Softer shadow */
+    width: 90%;
+    max-width: 500px; /* Wider form for better appearance */
+}
+
+label {
+    display: block;
+    margin: 10px 0;
+    font-size: 16px; /* Increase font size for better readability */
+}
+
+input[type="radio"] {
+    margin-right: 10px; /* Space between radio button and label */
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%; /* Full-width button */
+    font-size: 16px; /* Increase font size */
+    margin-top: 15px; /* Space above button */
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.result {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 600px) {
+    body {
+        padding: 20px; /* Add padding for smaller screens */
+        min-height: auto; /* Allow height to adjust based on content */
+    }
+
+    h1 {
+        font-size: 24px; /* Adjust font size for smaller screens */
+    }
+
+    form {
+        padding: 15px; /* Reduce padding in the form */
+    }
+
+    button {
+        padding: 12px; /* Slightly larger button padding */
+        font-size: 16px; /* Consistent font size */
+    }
+}

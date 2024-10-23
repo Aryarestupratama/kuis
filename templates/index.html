@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        function showResult(correctAnswer) {
+            const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+            const resultDiv = document.getElementById('result');
+            
+            if (selectedAnswer) {
+                const resultHTML = `
+                    <p><strong>Pertanyaan:</strong> {{ question.question }}</p>
+                    <p><strong>Jawaban Anda:</strong> ${selectedAnswer.value}</p>
+                    <p><strong>Jawaban yang benar:</strong> ${correctAnswer}</p>
+                    <button onclick="window.location.href='/'">Lanjut</button>
+                `;
+                resultDiv.innerHTML = resultHTML;
+                resultDiv.style.display = 'block'; // Tampilkan hasil
+                document.getElementById('quiz').style.display = 'none'; // Sembunyikan kuis
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>{{ question.question }}</h1>
+    <div id="quiz">
+        {% for choice in question.choices %}
+            <label>
+                <input type="radio" name="answer" value="{{ choice }}" onclick="showResult('{{ question.answer }}')">{{ choice }}
+            </label><br>
+        {% endfor %}
+    </div>
+    <div id="result" style="display: none;"></div>
+</body>
+</html>
